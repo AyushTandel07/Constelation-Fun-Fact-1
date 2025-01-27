@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Constellation Facts</title>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            overflow: hidden;
+            background: #000;
+            font-family: 'Futura', sans-serif;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .stars {
+            width: 1px;
+            height: 1px;
+            background: transparent;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+
+        .stars.small {
+            box-shadow: 100px 100px 3px 2px white,
+                        200px 200px 3px 2px white,
+                        300px 300px 3px 2px white,
+                        400px 400px 3px 2px white,
+                        500px 500px 3px 2px white,
+                        600px 600px 3px 2px white,
+                        700px 700px 3px 2px white,
+                        800px 800px 3px 2px white,
+                        900px 900px 3px 2px white,
+                        1000px 1000px 3px 2px white,
+                        1100px 1100px 3px 2px white,
+                        1200px 1200px 3px 2px white;
+            animation: animStar 50s linear infinite;
+        }
+
+        .stars.medium {
+            box-shadow: 200px 400px 4px 3px white,
+                        400px 600px 4px 3px white,
+                        600px 800px 4px 3px white,
+                        800px 1000px 4px 3px white,
+                        1000px 1200px 4px 3px white,
+                        1200px 1400px 4px 3px white,
+                        1400px 1600px 4px 3px white,
+                        1600px 1800px 4px 3px white;
+            animation: animStar 100s linear infinite;
+        }
+
+        .stars.large {
+            box-shadow: 100px 300px 6px 5px white,
+                        200px 400px 6px 5px white,
+                        300px 500px 6px 5px white,
+                        400px 600px 6px 5px white,
+                        500px 700px 6px 5px white,
+                        600px 800px 6px 5px white;
+            animation: animStar 150s linear infinite;
+        }
+
+        @keyframes animStar {
+            from {
+                transform: translateY(0px);
+            }
+            to {
+                transform: translateY(-3000px);
+            }
+        }
+
+        #fact-container {
+            position: relative;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px;
+            width: 80%;
+            max-width: 600px;
+            z-index: 1;
+        }
+
+        #fact {
+            font-size: 24px;
+            color: #00FFDD;
+            text-shadow: 2px 2px 4px #000000;
+            opacity: 0;
+            transition: opacity 2s;
+        }
+
+        #fact-button {
+            background-color: #0066FF;
+            border: none;
+            padding: 10px 20px;
+            font-size: 18px;
+            color: white;
+            cursor: pointer;
+            border-radius: 10px;
+            outline: none;
+            z-index: 1;
+        }
+
+        #fact-button:hover {
+            background-color: #0044CC;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+
+        #fact-container {
+            animation: float 6s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="stars small"></div>
+    <div class="stars medium"></div>
+    <div class="stars large"></div>
+    <div id="fact-container">
+        <p id="fact">Click the button to learn about constellations!</p>
+    </div>
+    <button id="fact-button">Discover a Fact</button>
+    <script>
+        const facts = [
+            "The constellation Orion is named after a hunter in Greek mythology.",
+            "The Big Dipper is part of the Ursa Major constellation.",
+            "The Milky Way galaxy is home to more than 100 billion stars!",
+            "The star Sirius is the brightest star in the night sky.",
+            "Constellations were used by ancient cultures for navigation and storytelling."
+        ];
+
+        const factContainer = document.getElementById('fact');
+        const factButton = document.getElementById('fact-button');
+
+        let currentFact = 0;
+
+        factButton.addEventListener('click', function() {
+            factContainer.style.opacity = 0;
+            setTimeout(() => {
+                factContainer.textContent = facts[currentFact];
+                factContainer.style.opacity = 1;
+                currentFact = (currentFact + 1) % facts.length;
+            }, 2000);
+
+            // Speed up the star animations for the jerk effect
+            document.querySelectorAll('.stars').forEach(star => {
+                star.style.animationDuration = '1s'; // Speed up the animation
+                setTimeout(() => {
+                    star.style.animationDuration = ''; // Reset to original speed after a brief jerk
+                }, 50);
+            });
+        });
+    </script>
+</body>
+</html>
